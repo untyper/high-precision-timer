@@ -20,7 +20,7 @@ class High_Precision_Timer
 public:
   // High-resolution sleep function without busy-waiting
 #ifdef _WIN32
-  void sleep(DWORD milliseconds);
+  void sleep(UINT milliseconds);
 #else
   void sleep(long milliseconds);
 #endif
@@ -41,7 +41,7 @@ void CALLBACK High_Precision_Timer::timer_proc(UINT u_timer_id, UINT u_msg, DWOR
 }
 
 // High-resolution sleep function without busy-waiting
-inline void High_Precision_Timer::sleep(DWORD milliseconds)
+inline void High_Precision_Timer::sleep(UINT milliseconds)
 {
   if (!this->timer_event)
   {
