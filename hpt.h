@@ -14,12 +14,7 @@ class High_Precision_Timer
   HANDLE timer_event; // Event handle for synchronization
 
   // Static callback for multimedia timer
-  static void CALLBACK timer_proc(UINT u_timer_id, UINT u_msg, DWORD_PTR dw_user, DWORD_PTR dw1, DWORD_PTR dw2)
-  {
-    // Access the event handle through the instance pointer
-    High_Precision_Timer* instance = reinterpret_cast<High_Precision_Timer*>(dw_user);
-    SetEvent(instance->timer_event); // Signal the event to unblock nano_sleep
-  }
+  static void CALLBACK timer_proc(UINT u_timer_id, UINT u_msg, DWORD_PTR dw_user, DWORD_PTR dw1, DWORD_PTR dw2);
 #endif
 
 public:
@@ -37,6 +32,14 @@ public:
 };
 
 #ifdef _WIN32
+
+void CALLBACK High_Precision_Timer::timer_proc(UINT u_timer_id, UINT u_msg, DWORD_PTR dw_user, DWORD_PTR dw1, DWORD_PTR dw2)
+{
+  // Access the event handle through the instance pointer
+  High_Precision_Timer* instance = reinterpret_cast<High_Precision_Timer*>(dw_user);
+  SetEvent(instance->timer_event); // Signal the event to unblock nano_sleep
+}
+
 // High-resolution sleep function without busy-waiting
 inline void High_Precision_Timer::sleep(DWORD milliseconds)
 {
